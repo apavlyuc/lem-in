@@ -5,63 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/04 20:05:46 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/09/23 16:34:22 by apavlyuc         ###   ########.fr       */
+/*   Created: 2017/12/03 17:23:31 by apavlyuc          #+#    #+#             */
+/*   Updated: 2018/10/21 19:04:03 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-static int	words(char *s, char c)
+static int	get_count(char const *s, char c)
 {
+	int		count;
 	int		i;
-	int		words;
 
 	i = 0;
-	words = 0;
-	while (s[i] != '\0')
+	count = 0;
+	while (*(s + i) != '\0')
 	{
-		while (s[i] == c && s[i] != '\0')
+		while (*(s + i) == c)
 			i++;
-		if (s[i] != '\0' && s[i] != c)
-		{
-			words++;
-			while (s[i] != '\0' && s[i] != c)
-				i++;
-		}
+		if (*(s + i) != '\0')
+			count++;
+		while (*(s + i) != c && *(s + i) != '\0')
+			i++;
 	}
-	return (words);
+	return (count);
 }
 
-static void	*ft_free(char **array)
+static int	_get_length(char const *s, char c)
 {
-	free(array);
-	return (NULL);
+	int		length;
+
+	length = 0;
+	while (*s != c && *s++ != '\0')
+		length++;
+	return (length);
+}
+
+static void	deleter(char **box)
+{
+	while (*box)
+	{
+		ft_strdel(box);
+		box++;
+	}
 }
 
 char		**ft_strsplit(char const *s, char c)
 {
-	char	**array;
-	char	*wd;
 	int		i;
-	int		b;
-	int		j;
+	int		parts;
+	int		length;
+	char	**box;
 
-	if (!s)
+	if (!s || c == '\0' || !(box = (char **)malloc(sizeof(char *) * \
+											((parts = get_count(s, c)) + 1))))
 		return (NULL);
-	array = ft_memalloc(sizeof(char **) * (words((char *)s, c) + 1));
 	i = 0;
-	j = 0;
-	while ((words((char *)s, c) - j > 0) && array != NULL)
+	while (i < parts)
 	{
-		while (s[i] == c)
-			i++;
-		b = i;
-		while (s[i] != c && s[i] != '\0')
-			i++;
-		if (!(wd = ft_strsub(s, b, (i - b))))
-			return (ft_free(array));
-		array[j++] = wd;
+		while (*s == c)
+			s++;
+		length = _get_length(s, c);
+		box[i] = ft_strsub(s, 0, length);
+		if (!box[i++])
+		{
+			deleter(box);
+			ft_strdel((char **)&box);
+			return (NULL);
+		}
+		s += length;
 	}
-	return (array);
+	box[i] = 0;
+	return (box);
 }

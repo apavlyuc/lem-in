@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 19:42:52 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/09/23 16:34:41 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/25 15:20:22 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char		*ft_strsub(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
-	int		i;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -23,12 +23,9 @@ char		*ft_strsub(char const *s, unsigned int start, size_t len)
 	if (!sub)
 		return (NULL);
 	i = 0;
-	if (sub == NULL)
-		return (NULL);
-	while (len > 0)
+	while (i < len)
 	{
 		sub[i] = s[start];
-		len--;
 		start++;
 		i++;
 	}

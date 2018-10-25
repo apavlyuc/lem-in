@@ -6,15 +6,31 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 10:21:33 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/21 10:22:44 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:14:44 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem-in.h>
 
-int         main(int ac, char **av)
+static void			init_nulls(t_lem_in_data *data)
 {
-    (void)ac;
-    (void)av;
-    return (0);
+	data->full_input = NULL;
+	data->rooms = NULL;
+	data->start_name = NULL;
+	data->end_name = NULL;
+}
+
+int					main()
+{
+	t_lem_in_data	data;
+	int				err;
+
+	init_nulls(&data);
+	err = parse(&data);
+	if (!err)
+		print_all(&data);
+	else	
+		delete_all(&data);
+	//system("leaks lem-in");
+	return (0);
 }

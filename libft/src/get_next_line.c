@@ -5,103 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/06 18:29:10 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/17 19:00:28 by apavlyuc         ###   ########.fr       */
+/*   Created: 2018/09/27 13:18:56 by vonischu          #+#    #+#             */
+/*   Updated: 2018/10/25 15:53:28 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/get_next_line.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include "libft.h"
 
-static int			ft_copy(char *dup, t_dat *node)
+char				*get_line(char **s)
 {
-	while (*node->p != '\0' && *node->p != '\n')
+	char	*line;
+	size_t	size;
+	int		flag;
+
+	flag = 0;
+	if (ft_strchr(*s, '\n'))
 	{
-		*dup = *node->p;
-		node->p++;
-		dup++;
+		size = ft_strchr(*s, '\n') - *s;
+		flag = 1;
 	}
-	return (*node->p == '\n' ? 2 : 3);
+	else
+		size = ft_strlen(*s);
+	line = ft_strncpy(ft_strnew(size), *s, size);
+	*s += (size + flag);
+	return (line);
 }
 
-static int			ft_read(t_dat *node, char **dup, int res, int len)
+t_list				*handle_file(t_list **all, int fd)
 {
-	int				n;
-	char			*big;
+	t_list	*f;
+	t_f		temp;
 
-	*dup = ft_strnew(BUFF_SIZE);
-	res = ft_copy(*dup, node);
-	len = ft_strlen(*dup);
-	while (res == 3)
+	f = *all;
+	while (f)
 	{
-		ft_bzero(node->buff, BUFF_SIZE);
-		if ((n = read(node->fd, node->buff, BUFF_SIZE)) == 0 && len == 0)
-			return (0);
-		if (n == -1)
-			return (-1);
-		node->p = node->buff;
-		if (*node->p == '\0')
-			return (1);
-		big = ft_strnew(ft_strlen(*dup) + BUFF_SIZE);
-		ft_strcpy(big, *dup);
-		ft_strdel(dup);
-		res = ft_copy(&big[len], node);
-		len += node->p - node->buff;
-		*dup = big;
+		if (((t_f*)f->content)->fd == fd)
+			return (f);
+		f = f->next;
 	}
-	*node->p == '\n' ? node->p++ : node->p;
-	return (1);
+	temp.s = ft_strnew(1);
+	temp.start = temp.s;
+	temp.fd = fd;
+	ft_lstadd(all, ft_lstnew((void*)&temp, sizeof(t_f)));
+	return (*all);
 }
 
-static void			ft_null(t_dat *node, int fd)
+int					get_next_line(int fd, char **line)
 {
-	node->fd = fd;
-	node->p = node->buff;
-	ft_bzero(node->buff, BUFF_SIZE + 1);
-	node->next = NULL;
-}
+	static t_list	*all;
+	t_list			*f;
+	char			buf[BUFF_SIZE + 1];
+	size_t			count;
 
-static t_dat		*ft_set(t_dat **head, int fd)
-{
-	t_dat			*node;
-	t_dat			*cursor;
-
-	if (*head == NULL)
-	{
-		node = malloc(sizeof(t_data));
-		ft_null(node, fd);
-		*head = node;
-		return (node);
-	}
-	cursor = *head;
-	while (cursor != NULL && cursor->next != NULL && cursor->fd != fd)
-		cursor = cursor->next;
-	if (cursor->fd == fd)
-		return (cursor);
-	node = malloc(sizeof(t_data));
-	cursor->next = node;
-	ft_null(node, fd);
-	return (node);
-}
-
-int					get_next_line(const int fd, char **line)
-{
-	static t_dat	*head = NULL;
-	t_dat			*node;
-	char			*dup;
-	int				res;
-	int				len;
-
-	len = 0;
-	res = 0;
-	if (fd == -1 || line == NULL)
+	if (fd < 0 || line == NULL || BUFF_SIZE < 1 || read(fd, buf, 0) < 0)
 		return (-1);
-	node = ft_set(&head, fd);
-	res = ft_read(node, &dup, res, len);
-	if (res == 1)
+	f = handle_file(&all, fd);
+	while ((count = read(fd, buf, BUFF_SIZE)))
 	{
-		*line = dup;
-		return (1);
+		buf[count] = '\0';
+		if (!(((t_f*)f->content)->s = ft_strjoin(((t_f*)f->content)->s, buf)))
+			return (-1);
+		ft_strdel(&((t_f*)f->content)->start);
+		((t_f*)f->content)->start = ((t_f*)f->content)->s;
+		if (ft_strchr(((t_f*)f->content)->s, '\n'))
+			break ;
 	}
-	ft_strdel(&dup);
-	return (res == 0 ? 0 : -1);
+	if (count < BUFF_SIZE && !ft_strlen(((t_f*)f->content)->s))
+		return (0);
+	if (!(*line = get_line(&((t_f*)f->content)->s)))
+		return (-1);
+	return (1);
 }

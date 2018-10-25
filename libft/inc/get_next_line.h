@@ -5,25 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 16:13:06 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/17 18:59:26 by apavlyuc         ###   ########.fr       */
+/*   Created: 2017/12/20 14:14:09 by apavlyuc          #+#    #+#             */
+/*   Updated: 2018/10/25 15:50:44 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "libft.h"
-# define BUFF_SIZE  1024
+# define BUFF_SIZE 32
+# define NULL_CHECK(x) if (!x) return (-1);
+# define ERR_CHECK(x, y, z) if (x < 0 || !y || z < 0) return (-1);
+# define END_CHECK(x, y) if (x < BUFF_SIZE && !y) return (0);
+# define BREAKER(x) if (x) break;
 
-typedef struct		s_data
+typedef struct	s_f
 {
-	int				fd;
-	char			buff[BUFF_SIZE + 1];
-	char			*p;
-	struct s_data	*next;
-}					t_dat;
+	char    	*s;
+	char    	*start;
+	int     	fd;
+}				t_f;
 
-int					get_next_line(const int fd, char **line);
+int				get_next_line(const int fd, char **line);
 
 #endif
