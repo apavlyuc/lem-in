@@ -6,11 +6,12 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 16:56:30 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 18:09:20 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:39:28 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem-in.h>
+#include <lem_in.h>
+
 static void			delete_neighbors(t_list *list)
 {
 	t_list			*tmp;

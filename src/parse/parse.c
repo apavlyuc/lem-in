@@ -6,11 +6,11 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 11:22:47 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 18:50:07 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:42:53 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem-in.h>
+#include <lem_in.h>
 
 #define START 1
 #define END 2
@@ -44,9 +44,9 @@ static char			add_room(t_lem_in_data *data, char **line)
 	return (ecv == 2 ? 1 : 0);
 }
 
-static int		velosiped(t_lem_in_data *data, char **line)
+static int			velosiped(t_lem_in_data *data, char **line)
 {
-	int			ret;
+	int				ret;
 
 	free(*line);
 	while ((ret = get_next_line(0, line)) > 0)
@@ -64,13 +64,11 @@ static int		velosiped(t_lem_in_data *data, char **line)
 	return (-1);
 }
 
-static char		handle_start_end(t_lem_in_data *data, char **line, char variant)
+static char			handle_start_end(t_lem_in_data *data, char **line,
+									char variant)
 {
-	int			gnl_ret;
+	int				gnl_ret;
 
-	//free(*line);
-	//gnl_ret = get_next_line(0, line);
-	//data->full_input = ft_strjoin_nl_with_free_dst(data->full_input, *line);
 	gnl_ret = velosiped(data, line);
 	if (gnl_ret <= 0)
 	{
@@ -93,10 +91,10 @@ static char		handle_start_end(t_lem_in_data *data, char **line, char variant)
 	return (0);
 }
 
-static char		parse_rooms(t_lem_in_data *data)
+static char			parse_rooms(t_lem_in_data *data)
 {
-	char		*line;
-	int			gnl_ret;
+	char			*line;
+	int				gnl_ret;
 
 	while ((gnl_ret = get_next_line(0, &line) > 0) && is_valid_room(line))
 	{
@@ -122,9 +120,9 @@ static char		parse_rooms(t_lem_in_data *data)
 	return (1);
 }
 
-char			parse(t_lem_in_data *dst)
+char				parse(t_lem_in_data *dst)
 {
-	char		*line;
+	char			*line;
 
 	get_next_line(0, &line);
 	dst->full_input = ft_strjoin(line, "\n");
@@ -135,6 +133,6 @@ char			parse(t_lem_in_data *dst)
 	if (parse_rooms(dst))
 		return (1);
 	if (!dst->end_name || !dst->start_name || !dst->rooms)
-		return (1); // 0 -> 1
+		return (1);
 	return (0);
 }

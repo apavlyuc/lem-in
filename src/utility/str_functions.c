@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/21 10:21:33 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:56:59 by apavlyuc         ###   ########.fr       */
+/*   Created: 2018/10/25 19:47:45 by apavlyuc          #+#    #+#             */
+/*   Updated: 2018/10/25 19:47:53 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 
-static void			init_nulls(t_lem_in_data *data)
+char				*ft_strjoin_nl_with_free_dst(char *dst, char *new_part)
 {
-	data->full_input = NULL;
-	data->rooms = NULL;
-	data->start_name = NULL;
-	data->end_name = NULL;
-}
+	char			*tmp;
 
-int					main(void)
-{
-	t_lem_in_data	data;
-	int				err;
-
-	init_nulls(&data);
-	err = parse(&data);
-	if (!err)
-	{
-		//print_all(&data);
-		run(&data);
-	}
-	else
-		delete_all(&data);
-	//system("leaks lem-in");
-	return (0);
+	tmp = dst;
+	dst = ft_strjoin(tmp, new_part);
+	ft_strdel(&tmp);
+	tmp = dst;
+	dst = ft_strjoin(tmp, "\n");
+	ft_strdel(&tmp);
+	return (dst);
 }

@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   link_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/21 10:21:33 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:56:59 by apavlyuc         ###   ########.fr       */
+/*   Created: 2018/10/25 19:46:14 by apavlyuc          #+#    #+#             */
+/*   Updated: 2018/10/25 19:46:30 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 
-static void			init_nulls(t_lem_in_data *data)
+char				is_valid_link(char *line)
 {
-	data->full_input = NULL;
-	data->rooms = NULL;
-	data->start_name = NULL;
-	data->end_name = NULL;
-}
+	size_t			i;
+	size_t			len;
 
-int					main(void)
-{
-	t_lem_in_data	data;
-	int				err;
-
-	init_nulls(&data);
-	err = parse(&data);
-	if (!err)
-	{
-		//print_all(&data);
-		run(&data);
-	}
-	else
-		delete_all(&data);
-	//system("leaks lem-in");
-	return (0);
+	if (ft_strequ(line, "##start") || ft_strequ(line, "##end"))
+		return (0);
+	if (line[0] == '#')
+		return (1);
+	if (line[0] == 'L')
+		return (0);
+	i = 0;
+	len = ft_strlen(line);
+	while (i < len && line[i] != '-')
+		++i;
+	if (i == len || line[i + 1] == '\0')
+		return (0);
+	return (1);
 }

@@ -6,11 +6,11 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 17:55:52 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:12:39 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/25 19:43:18 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem-in.h>
+#include <lem_in.h>
 
 static void			add_link(t_list **list, char *name)
 {
@@ -21,7 +21,7 @@ static void			add_link(t_list **list, char *name)
 		while ((*list)->next)
 		{
 			if (ft_strequ((char *)((*list)->content), name))
-				return;
+				return ;
 			*list = (*list)->next;
 		}
 		(*list)->next = ft_lstnew(name, ft_strlen(name));
