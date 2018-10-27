@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 19:46:47 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:47:08 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:39:06 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ t_list				*find_element(t_list *list, char *name)
 		list = list->next;
 	}
 	return (NULL);
+}
+
+size_t				list_len(t_list *len)
+{
+	size_t			ret;
+
+	ret = 0;
+	if (!len)
+		return (ret);
+	while (len)
+	{
+		++ret;
+		len = len->next;
+	}
+	return (ret);
 }

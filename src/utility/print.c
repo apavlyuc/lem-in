@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 16:56:12 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:39:45 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/27 19:18:40 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ void				print_all(t_lem_in_data *data)
 	print_rooms(data->rooms);
 	ft_printf("\t\tEND DATA\n");
 	ft_printf("%s", data->full_input);
+}
+
+void				print_answer(t_list *path)
+{
+	while (path)
+	{
+		ft_printf("%s->", (char *)path->content);
+		path = path->next;
+	}
 }

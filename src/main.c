@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 10:21:33 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:56:59 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:51:10 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int					main(void)
 	err = parse(&data);
 	if (!err)
 	{
-		//print_all(&data);
+		print_all(&data);
 		run(&data);
 	}
 	else
 		delete_all(&data);
-	//system("leaks lem-in");
+	system("leaks lem-in");
 	return (0);
 }

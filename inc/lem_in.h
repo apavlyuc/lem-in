@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 10:20:13 by apavlyuc          #+#    #+#             */
-/*   Updated: 2018/10/25 19:57:05 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2018/10/27 19:18:58 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char			is_valid_link(char *line);
 */
 char			has_element(t_list *list, t_lem_in_room *room);
 t_list			*find_element(t_list *list, char *name);
+size_t			list_len(t_list *list);
 /*
 **				utility/str_functions.c
 */
@@ -76,6 +77,7 @@ char			*ft_strjoin_nl_with_free_dst(char *dst, char *new_part);
 **				utility/print.c
 */
 void			print_all(t_lem_in_data *data);
+void			print_answer(t_list *path);
 /*
 **				utility/delete.c
 */
