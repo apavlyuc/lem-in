@@ -22,6 +22,7 @@ int				read_farm(t_farm *farm);
 int				validate_farm(t_farm *farm);
 int				is_valid_room(char *room);
 int				is_valid_link(char *link);
+int				is_valid_command(char *command);
 int				is_valid_comment(char *comment);
 /*
 **			parser/getters.c
@@ -31,6 +32,6 @@ char			*get_room_name(char *line);
 /*
 **			utility.c
 */
-void			add_room(t_farm **farm, char *room_name, int room_type);
+int				add_room(t_farm **farm, char *room_name, int room_type);
 
 #endif

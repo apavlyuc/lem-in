@@ -1,10 +1,16 @@
 #include "../libft/inc/libft.h"
 #include "../inc/lemin.h"
 
-void		add_room(t_farm **farm, char *room_name, int room_type)
+int		add_room(t_farm **farm, char *room, int room_type)
 {
+	char	*room_name;
 	t_ull	size;
 
+	if (room_type == 1 && (*farm)->start_room_name)
+		return (0);
+	if (room_type == 2 && (*farm)->finish_room_name)
+		return (0);
+	room_name = get_room_name(room);
 	if (room_type == 1)
 		(*farm)->start_room_name = ft_strdup(room_name);
 	else if (room_type == 2)
@@ -14,4 +20,6 @@ void		add_room(t_farm **farm, char *room_name, int room_type)
 		(*farm)->rooms = ft_lstnew((void *)room_name, size + 1);
 	else
 		ft_lstadd_before(&((*farm)->rooms), ft_lstnew((void *)room_name, size + 1));
+	ft_memdel((void **)&room_name);
+	return (1);
 }
