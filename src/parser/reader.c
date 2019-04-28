@@ -8,6 +8,7 @@ static int		read_ants(t_farm *farm)
 
 	if (get_next_line(0, &line) == -1)
 		return (0);
+	ft_putstr(line);
 	farm->ants_count = ft_atoi(line);
 	ft_memdel((void **)&line);
 	return (1);
