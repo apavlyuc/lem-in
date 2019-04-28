@@ -21,7 +21,13 @@ int				is_valid_room(char *room)
 
 int				is_valid_comment(char *comment)
 {
-	(void)comment;
+	t_ull		size;
+
+	size = ft_strlen(comment);
+	if (size < 2)
+		return (0);
+	if (comment[0] != '#' || comment[1] != '#')
+		return (0);
 	return (1);
 }
 
