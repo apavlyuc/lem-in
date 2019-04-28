@@ -31,6 +31,6 @@ char			*get_room_name(char *line);
 /*
 **			utility.c
 */
-int				add_room(t_farm **farm, char *room_name, int room_type);
+void			add_room(t_farm **farm, char *room_name, int room_type);
 
 #endif
