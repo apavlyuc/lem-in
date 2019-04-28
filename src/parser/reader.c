@@ -18,28 +18,25 @@ static int		read_rooms(t_farm *farm, char **line)
 {
 	int			gnl_ret_code;
 	int			room_type;
-	char		*room_name;
 
 	room_type = 0;
 	while ((gnl_ret_code = get_next_line(0, line)))
 	{
 		if (is_valid_room(*line))
 		{
-			room_name = get_room_name(*line);
-			add_room(&farm, room_name, room_type);
-			ft_memdel((void **)&room_name);
+			if (add_room(&farm, *line, room_type) == 0)
+				break;
+			room_type = 0;
 		}
-		else if (is_valid_comment(*line))
+		else if (is_valid_command(*line))
 		{
 			room_type = get_next_room_type(*line);
 		}
-		else
+		else if (!is_valid_comment(*line))
 			break;
 		ft_memdel((void **)line);
 	}
-	if (gnl_ret_code == -1)
-		return (0);
-	return (1);
+	return (gnl_ret_code == -1 ? 0 : 1);
 }
 
 static int		read_links(t_farm *farm, char **first_link)
