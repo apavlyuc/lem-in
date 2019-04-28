@@ -13,5 +13,5 @@ void		add_room(t_farm **farm, char *room_name, int room_type)
 	if ((*farm)->rooms == 0)
 		(*farm)->rooms = ft_lstnew((void *)room_name, size + 1);
 	else
-		ft_lstadd_before(farm, ft_lstnew((void *)room_name, size + 1));
+		ft_lstadd_before(&((*farm)->rooms), ft_lstnew((void *)room_name, size + 1));
 }
