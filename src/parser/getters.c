@@ -2,8 +2,11 @@
 
 int				get_next_room_type(char *line)
 {
-	(void)line;
-	return (1);
+	if (ft_strequ(line, "##start"))
+		return (1);
+	if (ft_strequ(line, "##end"))
+		return (2);
+	return (3);
 }
 
 char			*get_room_name(char *line)
