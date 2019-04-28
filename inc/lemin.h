@@ -24,9 +24,6 @@ int				is_valid_room(char *room);
 int				is_valid_link(char *link);
 int				is_valid_comment(char *comment);
 /*
-**			parser/checker.c
-*/
-/*
 **			parser/getters.c
 */
 int				get_next_room_type(char *line);
