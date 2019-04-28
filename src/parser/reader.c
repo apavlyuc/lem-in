@@ -9,18 +9,20 @@ static int		read_ants(t_farm *farm)
 	if (get_next_line(0, &line) == -1)
 		return (0);
 	farm->ants_count = ft_atoi(line);
-	ft_memdel(&line);
+	ft_memdel((void **)&line);
 	return (1);
 }
 
 static int		read_rooms(t_farm *farm)
 {
-
+	(void)farm;
+	return (1);
 }
 
 static int		read_links(t_farm *farm)
 {
-
+	(void)farm;
+	return (1);
 }
 
 int				read_farm(t_farm *farm)

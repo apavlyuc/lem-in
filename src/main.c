@@ -14,8 +14,10 @@ static void	set_to_zero_state(t_farm *farm)
 
 static void	delete_farm_fields(t_farm *farm)
 {
-	ft_memdel(farm->start_room_name);
-	ft_memdel(farm->finish_room_name);
+	ft_memdel((void **)&farm->start_room_name);
+	ft_memdel((void **)&farm->finish_room_name);
+	ft_lstdel(&(farm->rooms), ft_del_handler);
+	ft_lstdel(&(farm->links), ft_del_handler);
 }
 
 int			main(int ac, char **av)
