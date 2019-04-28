@@ -8,7 +8,7 @@ static int		read_ants(t_farm *farm)
 
 	if (get_next_line(0, &line) == -1)
 		return (0);
-	ft_putstr(line);
+	ft_putendl(line);
 	farm->ants_count = ft_atoi(line);
 	ft_memdel((void **)&line);
 	return (1);
@@ -20,11 +20,12 @@ static int		read_rooms(t_farm *farm, char **line)
 	int			room_type;
 
 	room_type = 0;
-	while ((gnl_ret_code = get_next_line(0, line)))
+	while ((gnl_ret_code = get_next_line(0, line)) > 0)
 	{
+		ft_putendl(*line);
 		if (is_valid_room(*line))
 		{
-			if (add_room(&farm, *line, room_type) == 0)
+			if (add_room(farm, *line, room_type) == 0)
 				break;
 			room_type = 0;
 		}
@@ -39,11 +40,25 @@ static int		read_rooms(t_farm *farm, char **line)
 	return (gnl_ret_code == -1 ? 0 : 1);
 }
 
-static int		read_links(t_farm *farm, char **first_link)
+static int		read_links(t_farm *farm)
 {
-	(void)farm;
-	(void)first_link;
-	return (1);
+	char		*line;
+	int			gnl_ret_code;
+
+	while ((gnl_ret_code = get_next_line(0, &line)) > 0)
+	{
+		if (is_valid_link(line))
+		{
+			add_link(farm, line);
+			ft_memdel((void **)&line);
+		}
+		else
+		{
+			ft_memdel((void **)&line);
+			return (0);
+		}
+	}
+	return (gnl_ret_code == -1 ? 0 : 1);
 }
 
 int				read_farm(t_farm *farm)
@@ -54,7 +69,14 @@ int				read_farm(t_farm *farm)
 		return (0);
 	if (read_rooms(farm, &first_link) == 0)
 		return (0);
-	if (read_links(farm, &first_link) == 0)
-		return (0);
-	return (1);
+	if (is_valid_link(first_link))
+	{
+		add_link(farm, first_link);
+		ft_memdel((void **)&first_link);
+		if (read_links(farm) == 0)
+			return (0);
+		return (1);
+	}
+	ft_memdel((void **)&first_link);
+	return (0);
 }
