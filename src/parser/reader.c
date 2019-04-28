@@ -18,13 +18,16 @@ static int		read_rooms(t_farm *farm, char **line)
 {
 	int			gnl_ret_code;
 	int			room_type;
+	char		*room_name;
 
 	room_type = 0;
 	while ((gnl_ret_code = get_next_line(0, line)))
 	{
 		if (is_valid_room(*line))
 		{
-			add_room(&farm, get_room_name(*line), room_type);
+			room_name = get_room_name(*line);
+			add_room(&farm, room_name, room_type);
+			ft_memdel((void **)&room_name);
 		}
 		else if (is_valid_comment(*line))
 		{
