@@ -38,9 +38,16 @@ int				get_next_room_type(char *line);
 char			*get_room_name(char *line);
 char			*get_link_part(char *link, int part);
 /*
-**			utility.c
+**			utility/farm.c
 */
 int				add_room(t_farm *farm, char *room_name, int room_type);
 int				add_link(t_farm *farm, char *link);
+/*
+**			utility/binding.c
+*/
+t_binding		*find_binding(t_list *links, char *node);
+t_binding		*create_binding(char *node, char *neighbour);
+void			add_neighbour(t_binding *binding, char *name);
+void			add_binding(t_list **links, t_binding *binding);
 
 #endif
