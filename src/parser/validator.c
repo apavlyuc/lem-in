@@ -45,7 +45,12 @@ int				is_valid_comment(char *comment)
 
 int				is_valid_link(char *link)
 {
-	(void)link;
+	if (ft_strlen(link) < 3)
+		return (0);
+	if (*link == '#' || *link == 'L')
+		return (0);
+	if (ft_strchr(link, '-') == 0)
+		return (0);
 	return (1);
 }
 
