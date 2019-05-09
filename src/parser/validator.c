@@ -56,6 +56,12 @@ int				is_valid_link(char *link)
 
 int				validate_farm(t_farm *farm)
 {
-	(void)farm;
+	if (!farm->start_room_name || !farm->finish_room_name)
+		return (0);
+	if (!farm->rooms || !farm->links)
+		return (0);
+	if (!find_binding(farm->links, farm->start_room_name) ||
+		!find_binding(farm->links, farm->finish_room_name))
+		return (0);
 	return (1);
 }

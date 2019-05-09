@@ -1,8 +1,6 @@
 #include "../libft/inc/libft.h"
 #include "../inc/lemin.h"
 
-#include <unistd.h>
-
 void			print_all(t_farm *farm)
 {
 	printf("ants: %d\n", farm->ants_count);
@@ -87,7 +85,7 @@ int				main(int ac, char **av)
 		delete_farm_fields(&game_info);
 		return (2);
 	}
-	//ft_putendl("DEBUG: valid");
+	ft_putendl("DEBUG: valid");
 	//print_all(&game_info);
 	delete_farm_fields(&game_info);
 	return (0);
