@@ -11,7 +11,7 @@ static int		read_ants(t_farm *farm)
 	ft_putendl(line);
 	farm->ants_count = ft_atoi(line);
 	ft_memdel((void **)&line);
-	return (1);
+	return (farm->ants_count > 0 ? 1 : 0);
 }
 
 static int		read_rooms(t_farm *farm, char **line)
