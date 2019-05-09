@@ -3,6 +3,12 @@
 
 # include "../../libft/inc/libft_types.h"
 
+typedef struct	s_graph
+{
+	char		*node;
+	t_list		*neighbours;
+}				t_graph;
+
 typedef struct	s_farm
 {
 	t_list		*rooms;
