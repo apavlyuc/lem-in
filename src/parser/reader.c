@@ -57,7 +57,7 @@ static int		read_links(t_farm *farm)
 		else if (!is_valid_comment(line) && !is_valid_command(line))
 		{
 			ft_memdel((void **)&line);
-			return (0);
+			return (gnl_ret_code == 0 ? 1 : 0);
 		}
 		ft_memdel((void **)&line);
 		if (gnl_ret_code == 0)
