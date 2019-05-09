@@ -72,19 +72,23 @@ static void		delete_farm_fields(t_farm *farm)
 int				main(int ac, char **av)
 {
 	t_farm		game_info;
-	int			a, b;
 
 	(void)ac;
 	(void)av;
 	set_to_zero_state(&game_info);
-	if ((a = read_farm(&game_info)) == 0 || (b = validate_farm(&game_info) == 0))
+	if (read_farm(&game_info) == 0)
 	{
 		delete_farm_fields(&game_info);
-		printf("ivalid: [a = %d | b = %d]\n", a, b);
-		return (-1);
+		return (1);
 	}
-	ft_putendl("valid");
-	print_all(&game_info);
+	if (validate_farm(&game_info) == 0)
+	{
+		ft_putendl("ERROR");
+		delete_farm_fields(&game_info);
+		return (2);
+	}
+	//ft_putendl("DEBUG: valid");
+	//print_all(&game_info);
 	delete_farm_fields(&game_info);
 	return (0);
 }
