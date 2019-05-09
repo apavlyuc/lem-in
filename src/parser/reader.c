@@ -53,13 +53,13 @@ static int		read_links(t_farm *farm)
 		if (is_valid_link(line))
 		{
 			add_link(farm, line);
-			ft_memdel((void **)&line);
 		}
-		else
+		else if (!is_valid_comment(line) && !is_valid_command(line))
 		{
 			ft_memdel((void **)&line);
 			return (0);
 		}
+		ft_memdel((void **)&line);
 		if (gnl_ret_code == 0)
 			break;
 	}

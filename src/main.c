@@ -33,5 +33,6 @@ int			main(int ac, char **av)
 		return (-1);
 	}
 
+	delete_farm_fields(&game_info);
 	return (0);
 }
