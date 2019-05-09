@@ -3,11 +3,11 @@
 
 # include "../../libft/inc/libft_types.h"
 
-typedef struct	s_graph
+typedef struct	s_binding
 {
 	char		*node;
 	t_list		*neighbours;
-}				t_graph;
+}				t_binding;
 
 typedef struct	s_farm
 {
