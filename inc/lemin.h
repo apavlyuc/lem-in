@@ -2,6 +2,7 @@
 # define LEMIN_H
 
 # include "../../libft/inc/libft_types.h"
+# include <stdio.h>
 
 typedef struct	s_binding
 {
@@ -35,6 +36,7 @@ int				is_valid_comment(char *comment);
 */
 int				get_next_room_type(char *line);
 char			*get_room_name(char *line);
+char			*get_link_part(char *link, int part);
 /*
 **			utility.c
 */
