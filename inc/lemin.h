@@ -49,5 +49,9 @@ t_binding		*find_binding(t_list *links, char *node);
 t_binding		*create_binding(char *node, char *neighbour);
 void			add_neighbour(t_binding *binding, char *name);
 void			add_binding(t_list **links, t_binding *binding);
+/*
+**			logic/game.c
+*/
+void			play_game(t_farm *farm);
 
 #endif
