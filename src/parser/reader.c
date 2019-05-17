@@ -1,5 +1,5 @@
 
-#include "../../../libft/inc/libft.h"
+#include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 
 static int		read_ants(t_farm *farm)

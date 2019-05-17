@@ -86,8 +86,8 @@ int				main(int ac, char **av)
 		return (2);
 	}
 	ft_putendl("DEBUG: valid");
-	//print_all(&game_info);
-	play_game(&game_info);
+	print_all(&game_info);
+	//play_game(&game_info);
 	delete_farm_fields(&game_info);
 	return (0);
 }
