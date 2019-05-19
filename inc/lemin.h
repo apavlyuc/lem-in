@@ -95,6 +95,14 @@ void			add_binding(t_list **links, t_binding *binding);
 */
 void			play_game(t_farm *farm);
 /*
+**			logic/simple_path.c
+*/
+int				find_simple_path(t_data *data, t_farm *farm);
+/*
+**			logic/indexs.c
+*/
+void			reinit_nodes_indexs(t_data *data, t_farm *farm, t_link *near);
+/*
 **			logic/converter/convert.c
 */
 void			change_data_type(t_data *data, t_farm *farm);
@@ -102,8 +110,18 @@ void			change_data_type(t_data *data, t_farm *farm);
 **			logic/utility/link.c
 */
 t_ull			get_list_size(t_list *lst);
+t_link			*create_link(char *name, int id);
+t_link			*get_link_at(t_node *node, int index);
+void			append_to_link(t_link *link, t_link *new);
+/*
+**			logic/utility/path.c
+*/
+t_path			*create_path(int length, int id, t_path *branch, t_path *step);
+/*
+**			logic/deleter/cleaner.c
+*/
+void			clear_data(t_data *data);
 
 //////////////////////////////////////////////////////////////////
-t_link			*create_link(char *name, int id);
-
+void			shuffle_party(t_data *data, t_farm *farm, int index);
 #endif

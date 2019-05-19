@@ -24,3 +24,27 @@ t_link			*create_link(char *name, int id)
 	ret->next = 0;
 	return (ret);
 }
+
+t_link			*get_link_at(t_node *node, int index)
+{
+	int			i;
+	t_link		*ret;
+
+	i = 0;
+	ret = node->link;
+	while (i < index && ret)
+	{
+		ret = ret->next;
+		++i;
+	}
+	return (index == i ? ret : 0);
+}
+
+void			append_to_link(t_link *link, t_link *new)
+{
+	while (link->next)
+	{
+		link = link->next;
+	}
+	link->next = new;
+}

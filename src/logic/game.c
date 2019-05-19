@@ -2,200 +2,6 @@
 #include "../../inc/lemin.h"
 #include <stdlib.h>
 
-void			set_unused(t_node *node, int len)
-{
-	int			i;
-
-	i = -1;
-	while (++i < len)
-	{
-		if (node[i].used == 9)
-			continue;
-		node[i].used = 0;
-		node[i].index = 0;
-	}
-}
-
-void			append_to_link(t_link *link, t_link *new)
-{
-	while (link->next)
-	{
-		link = link->next;
-	}
-	link->next = new;
-}
-
-void			process_near(t_node *nodes, t_link *center, t_link *near)
-{
-	int			near_index;
-	int			main_index;
-
-	near_index = nodes[near->id].index;
-	main_index = nodes[center->id].index;
-	if (near_index == 0 || near_index > main_index + 1)
-	{
-		if (nodes[near->id].used != 9)
-			nodes[near->id].index = main_index + 1;
-	}
-	if (nodes[near->id].used == 0)
-	{
-		nodes[near->id].used = 1;
-		append_to_link(center, create_link(0, near->id));
-	}
-}
-
-void			reinit_nodes_indexs(t_data *data, t_farm *farm, t_link *near)
-{
-	ft_putendl("start:\t reinit_nodes_indexs");
-	t_link		*center;
-
-	(void)farm;
-	set_unused(data->nodes, data->count_of_nodes);
-	data->nodes[0].used = 1;
-	center = create_link(0, 0);
-	while (center)
-	{
-		near = data->nodes[center->id].link;
-		while (near)
-		{
-			process_near(data->nodes, center, near);
-			near = near->next;
-		}
-		near = center->next;
-		ft_memdel((void **)&center);
-		center = near;
-	}
-	data->nodes[0].index = 0;
-	ft_putendl("end:\t reinit_nodes_indexs");
-}
-
-void			append_path(t_data *data, t_path *new)
-{
-	t_path		*tmp;
-
-	data->count_of_paths++;
-	if (data->paths == 0)
-	{
-		data->paths = new;
-		return;
-	}
-	tmp = data->paths;
-	while (tmp->next_branch)
-	{
-		tmp = tmp->next_branch;
-	}
-	tmp->next_branch = new;
-	ft_putendl("end: append_path");
-}
-
-t_path			*create_path(int length, int id, t_path *branch, t_path *step)
-{
-	printf("start:\t create_path\n");
-	t_path		*ret;
-
-	ret = (t_path *)ft_memalloc(sizeof(t_path));
-	ret->id = id;
-	ret->length = length;
-	ret->next_branch = branch;
-	ret->step_forward = step;
-	printf("end:\t create_path\n");
-	return (ret);
-}
-
-int				get_potential_id(t_node *nodes, t_link *curr, int ret, int id)
-{
-	static int	mark;
-
-	if ((id == 0 && mark == 1) || curr->id == 0 || nodes[ret].used == 9 ||
-	(nodes[curr->id].index < nodes[ret].index && nodes[curr->id].used != 9))
-	{
-		if (id != 1 || curr->id != 0 || mark != 1)
-			ret = curr->id;
-		if (id == 0 && curr->id == 0 && mark == 0)
-			++mark;
-	}
-	return (ret);
-}
-
-t_link			*get_link_at(t_node *node, int index)
-{
-	int			i;
-	t_link		*ret;
-
-	i = 0;
-	ret = node->link;
-	while (i < index && ret)
-	{
-		ret = ret->next;
-		++i;
-	}
-	return (index == i ? ret : 0);
-}
-
-void			go_to_next_node(t_data *data, t_path *path, int id)
-{
-	int			ret;
-	int			i;
-
-	ret = data->nodes[id].link->id;
-	i = 0;
-	while (i < data->nodes[id].links_count)
-	{
-		//ret = get_potential_id(data->nodes, data->nodes[id].link + i, ret, id);
-		ret = get_potential_id(data->nodes, get_link_at(data->nodes + id, i), ret, id);
-		++i;
-	}
-	path->step_forward = create_path(0, ret, 0, 0);
-	if (ret)
-	{
-		data->nodes[ret].used = 9;
-		go_to_next_node(data, path->step_forward, ret);
-	}
-}
-
-t_path			*get_path(t_data *data)
-{
-	ft_putendl("start:\t get_path");
-	t_path		*path;
-
-	path = create_path(data->nodes[1].index, 1, 0, 0);
-	go_to_next_node(data, path, 1);
-	ft_putendl("end:\t get_path");
-	return (path);
-}
-
-void			delete_first_link_by_id(t_data *data, int id, t_link *prev, t_link *next)
-{
-	ft_putendl("start:\t delete_first_link_by_id");
-	t_link		*tmp;
-
-	prev = 0;
-	next = 0;
-	tmp = data->nodes[0].link;
-	while (tmp)
-	{
-		if (tmp->id == id)
-		{
-			next = tmp->next;
-			break;
-		}
-		else
-			prev = tmp;
-		tmp = tmp->next;
-	}
-	if (tmp)
-	{
-		ft_memdel((void **)&tmp->name);
-		ft_memdel((void **)&tmp);
-		if (prev)
-			prev->next = next;
-		else
-			data->nodes[0].link = next;
-	}
-	ft_putendl("end:\t delete_first_link_by_id");
-}
-
-
 int				get_amount(t_path *path, int len)
 {
 	int res;
@@ -260,41 +66,6 @@ void			shuffle_party(t_data *data, t_farm *farm, int index)
 	data->scenarios[index].id = used_paths_count;
 	data->mn_var = data->mn_var > used_paths_count ? used_paths_count : data->mn_var;
 	printf("end:\t shuffle_party\n");
-}
-
-void			process_parties(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t process_parties");
-	data->scenarios = (t_scenario *)ft_memalloc(sizeof(t_scenario));
-	
-	data->scenarios->paths = data->paths;
-	data->scenarios->complexity = data->count_of_paths;
-	//printf("%d\n", data->count_of_paths);
-	shuffle_party(data, farm, 0);
-	ft_putendl("end:\t process_parties");
-}
-
-int				collect_paths(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t collect_paths");
-	while (1)
-	{
-		reinit_nodes_indexs(data, farm, 0);
-		if (data->nodes[1].index == 0)
-			break;
-		append_path(data, get_path(data));
-		if (data->nodes[1].index == 1)
-		{
-			delete_first_link_by_id(data, 1, 0, 0);
-			ft_putendl("BREAK");
-			//break;//DELETE
-		}
-	}
-	if (!data->count_of_paths)
-		return (1);
-	process_parties(data, farm);
-	ft_putendl("end:\t collect_paths");
-	return (0);
 }
 
 
@@ -722,49 +493,6 @@ void			choose_printing_logic(t_data *data, t_farm *farm)
 
 
 
-void			clear_data(t_data *data)
-{
-	ft_putendl("start:\t clear_data");
-	int			i;
-	t_link		*tmp;
-
-	i = 0;
-	while (i < data->count_of_nodes)
-	{
-		ft_memdel((void **)&data->nodes[i].name);
-		tmp = data->nodes[i].link;
-		while (tmp)
-		{
-			ft_memdel((void **)&tmp->name);
-			tmp = tmp->next;
-		}
-		ft_memdel((void **)&data->nodes[i].link);
-		++i;
-	}
-	ft_memdel((void **)&data->nodes);
-	ft_putendl("end:\t clear_data");
-}
-
-
-
-
-void			print_all_data(t_data *data)
-{
-	t_path		*path1, *path2;
-
-	path1 = path2 = data->scenarios[0].paths;
-	while (path1)
-	{
-		while (path1)
-		{
-			printf("%s-", data->nodes[path1->id].name);
-			path1 = path1->step_forward;
-		}
-		path1 = path2->next_branch;
-		path2 = path1;
-	}
-	printf("\n");
-}
 
 static void		init_data(t_data *data)
 {
@@ -786,12 +514,9 @@ void			play_game(t_farm *farm)
 	init_data(&data);
 	data.farm = farm;
 	change_data_type(&data, farm);
-	if (collect_paths(&data, farm))
+	if (find_simple_path(&data, farm))
 		ft_putendl("ERROR: isn't enough information");
 	else
-	{
-		//print_all_data(&data);
 		choose_printing_logic(&data, farm);
-	}
 	clear_data(&data);
 }
