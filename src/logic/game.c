@@ -1,204 +1,6 @@
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 #include <stdlib.h>
-/*
-**		here would be smth like that
-**
-**		1) convert lists to arrays (optional)
-**		2) legacy "algorithm_big"
-**		3) cycle-part of legacy "main"
-**			3.1) legacy "find_ways" and "print_lem"
-**				OR
-**			3.2) legacy "print_lem"
-*/
-typedef struct	s_link {
-	char		*name;
-	int			id;
-	struct s_link		*next;
-}				t_link;
-
-typedef struct	s_node {
-	int			used;
-	int			index;
-	char		*name;
-	t_link		*link;
-	int			links_count;
-	//t_node		*next;// может быть мусор
-}				t_node;
-
-typedef struct	s_path {
-	int			length;
-	int			id;
-	int			ant;
-	//int			has_ant;
-	int			amount;
-	struct s_path		*step_forward;
-	struct s_path		*next_branch;
-}				t_path;
-
-typedef struct	s_scenario {
-	t_path		*paths;
-	int			id;//?
-	int			complexity;
-}				t_scenario;
-
-typedef struct	s_data {
-	t_node		*nodes;
-	int			count_of_nodes;
-	t_path		*paths;
-	int			count_of_paths;
-	t_scenario	*bad_scenario;
-	t_scenario	*scenarios;
-	int			count_of_scenarios;
-	int			mn_var;
-	t_farm		*farm;
-}				t_data;
-
-t_ull			get_list_size(t_list *lst)
-{
-	t_ull		ret;
-
-	ret = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		++ret;
-	}
-	return (ret);
-}
-
-int				get_node_id(t_data *data, char *name)
-{
-	int			i;
-
-	i = 0;
-	while (i < data->count_of_nodes)
-	{
-		if (ft_strequ(data->nodes[i].name, name))
-			return (i);
-		++i;
-	}
-	ft_putendl("::get_node_id error");
-	exit(1);
-}
-
-t_link			*create_link(char *name, int id);
-void			init_link_by_name(t_data *data, t_farm *farm, char *name, int i)
-{
-	ft_putendl("start:\t init_link_by_name");
-	t_binding	*binding;
-	t_list		*tmp;
-	t_link		**link;
-	//int			j;
-
-	binding = find_binding(farm->links, name);
-	data->nodes[i].links_count = 0;//get_list_size(binding->neighbours);
-	//data->nodes[i].link = (t_link *)ft_memalloc(sizeof(t_link) * data->nodes[i].links_count);
-	link = &data->nodes[i].link;
-	tmp = binding->neighbours;
-	//j = 0;
-	while (tmp)
-	{
-		if (!*link)
-		{
-			//ft_putendl("ready to create... ");
-			*link = create_link(ft_strdup((char *)tmp->content),\
-			get_node_id(data, (char *)tmp->content));
-			//ft_putendl("created");
-		}
-		//if (!*link)
-		//ft_putendl("link == null");
-		//data->nodes[i].link[j].name = ft_strdup((char *)tmp->content);
-		//data->nodes[i].link[j].id = get_node_id(data, (char *)tmp->content);
-		//data->nodes[i].link[j].next = data->nodes[i].links_count >= j + 1 ? 0 : &data->nodes[i].link[j + 1];
-		printf("for node:[%s] -> add link[%s] with id[%d]\n", data->nodes[i].name, (*link)->name, (*link)->id);
-		//++j;
-		data->nodes[i].links_count++;
-		tmp = tmp->next;
-		//ft_putendl("before link++");
-		//printf("%lu\n", (unsigned long int)*link);
-		//printf("%lu\n", (unsigned long int)&(*link)->next);
-		link = &((*link)->next);
-		printf("end\n");
-	}
-	ft_putendl("start:\t init_link_by_name");
-}
-
-void			add_links(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t add_links");
-	int			i;
-	char		*name;
-
-	i = 0;
-	while (i < data->count_of_nodes)
-	{
-		name = data->nodes[i].name;
-		init_link_by_name(data, farm, name, i);
-		++i;
-	}
-	ft_putendl("end:\t add_links");
-}
-
-void			convert_from_list_to_vector(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t convert_from_list_to_vector");
-	int			i;
-	t_list		*tmp;
-
-	i = 2;
-	tmp = farm->rooms;
-	while (tmp)
-	{
-		if (ft_strequ(farm->start_room_name, (char *)tmp->content))
-		{
-			data->nodes[0].name = ft_strdup((char *)tmp->content);
-			data->nodes[0].link = 0;
-			printf("add node: %s\n", data->nodes[0].name);
-		}
-		else if (ft_strequ(farm->finish_room_name, (char *)tmp->content))
-		{
-			data->nodes[1].name = ft_strdup((char *)tmp->content);
-			data->nodes[1].link = 0;
-			printf("add node: %s\n", data->nodes[1].name);
-		}
-		else
-		{
-			data->nodes[i].name = ft_strdup((char *)tmp->content);
-			data->nodes[i].link = 0;
-			printf("add node: %s\n", data->nodes[i].name);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	add_links(data, farm);
-	ft_putendl("end:\t convert_from_list_to_vector");
-}
-
-void			change_data_type(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t change_data_type");
-	data->count_of_nodes = get_list_size(farm->rooms);
-	printf("count of nodes: %d\n", data->count_of_nodes);
-	data->nodes = (t_node *)ft_memalloc(sizeof(t_node) * data->count_of_nodes);
-	convert_from_list_to_vector(data, farm);
-	ft_putendl("start:\t change_data_type");
-}
-
-
-
-
-
-t_link			*create_link(char *name, int id)
-{
-	t_link		*ret;
-
-	ret = (t_link *)ft_memalloc(sizeof(t_link));
-	ret->name = name;
-	ret->id = id;
-	ret->next = 0;
-	return (ret);
-}
 
 void			set_unused(t_node *node, int len)
 {
@@ -964,14 +766,24 @@ void			print_all_data(t_data *data)
 	printf("\n");
 }
 
+static void		init_data(t_data *data)
+{
+	data->nodes = 0;
+	data->paths = 0;
+	data->scenarios = 0;
+	data->bad_scenario = 0;
+	data->farm = 0;
+	data->count_of_nodes = 0;
+	data->count_of_paths = 0;
+	data->count_of_scenarios = 0;
+	data->mn_var = -1;
+}
+
 void			play_game(t_farm *farm)
 {
 	t_data		data;
 
-	data.nodes = 0;
-	data.paths = 0;
-	data.mn_var = -1;
-	data.count_of_paths = 0;
+	init_data(&data);
 	data.farm = farm;
 	change_data_type(&data, farm);
 	if (collect_paths(&data, farm))
