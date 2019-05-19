@@ -29,6 +29,7 @@ typedef struct	s_node {
 typedef struct	s_path {
 	int			length;
 	int			id;
+	int			ant;
 	//int			has_ant;
 	int			amount;
 	struct s_path		*step_forward;
@@ -352,7 +353,7 @@ t_path			*get_path(t_data *data)
 	ft_putendl("start:\t get_path");
 	t_path		*path;
 
-	path = create_path(1, data->nodes[1].index, 0, 0);
+	path = create_path(data->nodes[1].index, 1, 0, 0);
 	go_to_next_node(data, path, 1);
 	ft_putendl("end:\t get_path");
 	return (path);
@@ -438,8 +439,10 @@ void			process_parties(t_data *data, t_farm *farm)
 {
 	ft_putendl("start:\t process_parties");
 	data->scenarios = (t_scenario *)ft_memalloc(sizeof(t_scenario));
+	
 	data->scenarios->paths = data->paths;
 	data->scenarios->complexity = data->count_of_paths;
+	//printf("%d\n", data->count_of_paths);
 	shuffle_party(data, farm, 0);
 	ft_putendl("end:\t process_parties");
 }
@@ -470,12 +473,78 @@ int				collect_paths(t_data *data, t_farm *farm)
 
 
 
+void			print_item(int ant, char *name)
+{
+	ft_putchar('L');
+	ft_putnbr(ant);
+	ft_putchar('-');
+	ft_putstr(name);
+	ft_putchar(' ');
+	//printf("WTF");
+	//printf("L%d-%s ", ant, name);
+}
+
+int				print_round(t_data *data, t_path *path, int ant, int total)
+{
+	int			tmp_amount;
+
+	tmp_amount = path->amount;
+	while (path->step_forward)
+	{
+		if (path->step_forward->ant > 0)//?
+		{
+			//printf("IN IF: L%d-%s ", path->step_forward->ant, data->nodes[path->id].name);
+			print_item(path->step_forward->ant, data->nodes[path->id].name);
+			path->ant = path->step_forward->ant;
+			path->step_forward->ant = 0;
+		}
+		else if (!path->step_forward->id)
+		{
+			if (total - ant + 1 > tmp_amount && total >= ant)
+			{
+				print_item(ant, data->nodes[path->id].name);
+				path->ant = ant++;
+			}
+		}
+		path = path->step_forward;
+	}
+	return (ant);
+}
+
 void			just_print_scenario(t_data *data, t_farm *farm, int index)
 {
-	(void)data;
-	(void)farm;
-	(void)index;
+	t_path		*path;
+	int			lines;
+	int			ant;
+
+	ant = 1;
+	lines = 0;
+	data->scenarios[index].paths->amount = 0;
+	//printf("paths = %d\n", data->scenarios[index].id);
+	//exit(1);
+	while (data->scenarios[index].id-- > 0)
+	{
+		path = data->scenarios[index].paths;
+		while (path)
+		{
+			ant = print_round(data, path, ant, farm->ants_count);
+			path = path->next_branch;
+		}
+		ft_putchar('\n');
+		//printf("\n");
+		lines++;
+	}
+	//printf("\nLines: %d\n", lines);
+	ft_putstr("\nLines: ");
+	ft_putnbr(lines);
+	ft_putchar('\n');
+	//exit(1);
 }
+
+
+
+
+
 
 void			follow_the_path(t_data *data, t_farm *farm, t_path *path)
 {
@@ -502,6 +571,12 @@ void			run_finder(t_data *data, t_farm *farm)
 	follow_the_path(data, farm, new);
 }
 
+
+
+
+
+
+
 void			run_clever_print(t_data *data, t_farm *farm)
 {
 	ft_putendl("start:\t run_clever_print");
@@ -520,7 +595,7 @@ void			run_clever_print(t_data *data, t_farm *farm)
 void			choose_printing_logic(t_data *data, t_farm *farm)
 {
 	ft_putendl("start:\t choose_printing_logic");
-	if (data->count_of_paths < 4)
+	if (data->count_of_paths < 4 && 0)
 	{
 		run_finder(data, farm);
 		if (data->mn_var == -1 || data->mn_var > data->bad_scenario->complexity)
@@ -564,6 +639,24 @@ void			clear_data(t_data *data)
 
 
 
+void			print_all_data(t_data *data)
+{
+	t_path		*path1, *path2;
+
+	path1 = path2 = data->scenarios[0].paths;
+	while (path1)
+	{
+		while (path1)
+		{
+			printf("%s-", data->nodes[path1->id].name);
+			path1 = path1->step_forward;
+		}
+		path1 = path2->next_branch;
+		path2 = path1;
+	}
+	printf("\n");
+}
+
 void			play_game(t_farm *farm)
 {
 	t_data		data;
@@ -571,10 +664,14 @@ void			play_game(t_farm *farm)
 	data.nodes = 0;
 	data.paths = 0;
 	data.mn_var = -1;
+	data.count_of_paths = 0;
 	change_data_type(&data, farm);
 	if (collect_paths(&data, farm))
 		ft_putendl("ERROR: isn't enough information");
 	else
+	{
+		//print_all_data(&data);
 		choose_printing_logic(&data, farm);
+	}
 	clear_data(&data);
 }
