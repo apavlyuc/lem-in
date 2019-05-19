@@ -103,6 +103,10 @@ int				find_simple_path(t_data *data, t_farm *farm);
 */
 void			reinit_nodes_indexs(t_data *data, t_farm *farm, t_link *near);
 /*
+**			logic/refresh.c
+*/
+void			shuffle_party(t_data *data, t_farm *farm, int index);
+/*
 **			logic/converter/convert.c
 */
 void			change_data_type(t_data *data, t_farm *farm);
@@ -123,5 +127,5 @@ t_path			*create_path(int length, int id, t_path *branch, t_path *step);
 void			clear_data(t_data *data);
 
 //////////////////////////////////////////////////////////////////
-void			shuffle_party(t_data *data, t_farm *farm, int index);
+
 #endif
