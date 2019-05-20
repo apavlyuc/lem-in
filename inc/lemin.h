@@ -122,10 +122,14 @@ void			append_to_link(t_link *link, t_link *new);
 */
 t_path			*create_path(int length, int id, t_path *branch, t_path *step);
 /*
+**			logic/printer/printer.c
+*/
+void			choose_printing_logic(t_data *data, t_farm *farm);
+/*
 **			logic/deleter/cleaner.c
 */
 void			clear_data(t_data *data);
 
 //////////////////////////////////////////////////////////////////
-
+void			handle_superposition(t_data *data, t_farm *farm);
 #endif

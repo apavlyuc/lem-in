@@ -2,89 +2,6 @@
 #include "../../inc/lemin.h"
 #include <stdlib.h>
 
-void			print_item(int ant, char *name)
-{
-	ft_putchar('L');
-	ft_putnbr(ant);
-	ft_putchar('-');
-	ft_putstr(name);
-	ft_putchar(' ');
-	//printf("WTF");
-	//printf("L%d-%s ", ant, name);
-}
-
-int				print_round(t_data *data, t_path *path, int ant, int total)
-{
-	int			tmp_amount;
-
-	tmp_amount = path->amount;
-	while (path->step_forward)
-	{
-		if (path->step_forward->ant > 0)//?
-		{
-			//printf("IN IF: L%d-%s ", path->step_forward->ant, data->nodes[path->id].name);
-			print_item(path->step_forward->ant, data->nodes[path->id].name);
-			path->ant = path->step_forward->ant;
-			path->step_forward->ant = 0;
-		}
-		else if (!path->step_forward->id)
-		{
-			if (total - ant + 1 > tmp_amount && total >= ant)
-			{
-				print_item(ant, data->nodes[path->id].name);
-				path->ant = ant++;
-			}
-		}
-		path = path->step_forward;
-	}
-	return (ant);
-}
-
-void			just_print_scenario(t_data *data, t_farm *farm, int index)
-{
-	ft_putendl("start:\t just_print_scenario");
-	t_scenario	*scenario;
-	t_path		*path;
-	int			lines;
-	int			ant;
-
-	ant = 1;
-	lines = 0;
-	scenario = index == -1 ? data->bad_scenario : data->scenarios + index;
-	printf("here, index = %d\n", index);
-	//if ((data->scenarios + index)->paths->amount)
-	//	printf("a\n");
-	scenario->paths->amount = 0;
-	//data->scenarios[index].paths->amount = 0;
-	printf("here\n");
-	//printf("paths = %d\n", data->scenarios[index].id);
-	//exit(1);
-	while (scenario->id-- > 0)
-	//while (data->scenarios[index].id-- > 0)
-	{
-		path = scenario->paths;
-		//path = data->scenarios[index].paths;
-		while (path)
-		{
-			ant = print_round(data, path, ant, farm->ants_count);
-			path = path->next_branch;
-		}
-		ft_putchar('\n');
-		//printf("\n");
-		lines++;
-	}
-	//printf("\nLines: %d\n", lines);
-	ft_putstr("\nLines: ");
-	ft_putnbr(lines);
-	ft_putchar('\n');
-	//exit(1);
-	ft_putendl("end:\t just_print_scenario");
-}
-
-
-
-
-
 void			del_path(t_path *path)
 {
 	t_path *tmp;
@@ -387,39 +304,39 @@ void			handle_superposition(t_data *data, t_farm *farm)
 
 
 
-void			run_clever_print(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t run_clever_print");
-	int			i;
+// void			run_clever_print(t_data *data, t_farm *farm)
+// {
+// 	ft_putendl("start:\t run_clever_print");
+// 	int			i;
 
-	i = 0;
-	while (i < data->count_of_scenarios)
-	{
-		if (data->scenarios[i].id == data->mn_var)
-			just_print_scenario(data, farm, i);
-		++i;
-	}
-	ft_putendl("end:\t run_clever_print");
-}
+// 	i = 0;
+// 	while (i < data->count_of_scenarios)
+// 	{
+// 		if (data->scenarios[i].id == data->mn_var)
+// 			just_print_scenario(data, farm, i);
+// 		++i;
+// 	}
+// 	ft_putendl("end:\t run_clever_print");
+// }
 
-void			choose_printing_logic(t_data *data, t_farm *farm)
-{
-	ft_putendl("start:\t choose_printing_logic");
-	if (data->count_of_paths < 4)
-	{
-		handle_superposition(data, farm);
-		printf("%d %d\n", data->mn_var, data->bad_scenario->id);
-		if (data->mn_var == -1 || data->mn_var > data->bad_scenario->id)
-			just_print_scenario(data, farm, -1);
-		else
-			run_clever_print(data, farm);
-	}
-	else
-	{
-		just_print_scenario(data, farm, 0);
-	}
-	ft_putendl("end:\t choose_printing_logic");
-}
+// void			choose_printing_logic(t_data *data, t_farm *farm)
+// {
+// 	ft_putendl("start:\t choose_printing_logic");
+// 	if (data->count_of_paths < 4)
+// 	{
+// 		handle_superposition(data, farm);
+// 		printf("%d %d\n", data->mn_var, data->bad_scenario->id);
+// 		if (data->mn_var == -1 || data->mn_var > data->bad_scenario->id)
+// 			just_print_scenario(data, farm, -1);
+// 		else
+// 			run_clever_print(data, farm);
+// 	}
+// 	else
+// 	{
+// 		just_print_scenario(data, farm, 0);
+// 	}
+// 	ft_putendl("end:\t choose_printing_logic");
+// }
 
 
 
