@@ -107,6 +107,10 @@ void			reinit_nodes_indexs(t_data *data, t_farm *farm, t_link *near);
 */
 void			shuffle_party(t_data *data, t_farm *farm, int index);
 /*
+**			logic/superposition_handler.c
+*/
+void			handle_superposition(t_data *data, t_farm *farm);
+/*
 **			logic/converter/convert.c
 */
 void			change_data_type(t_data *data, t_farm *farm);
@@ -121,6 +125,10 @@ void			append_to_link(t_link *link, t_link *new);
 **			logic/utility/path.c
 */
 t_path			*create_path(int length, int id, t_path *branch, t_path *step);
+int				check_node_in_path(t_data *data, t_path **path, t_path *tmp, int id);
+void			add_node_to_path(t_path *path, int id);
+int				is_node_in_path(t_path *path, int id);
+void			del_steps(t_path *path);
 /*
 **			logic/printer/printer.c
 */
@@ -129,7 +137,7 @@ void			choose_printing_logic(t_data *data, t_farm *farm);
 **			logic/deleter/cleaner.c
 */
 void			clear_data(t_data *data);
+void			clear_path(t_path **path);
 
 //////////////////////////////////////////////////////////////////
-void			handle_superposition(t_data *data, t_farm *farm);
 #endif
