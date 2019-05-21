@@ -47,7 +47,7 @@ static int		read_links(t_farm *farm)
 	char		*line;
 	int			gnl_ret_code;
 
-	while ((gnl_ret_code = get_next_line(0, &line)) != -1)
+	while ((gnl_ret_code = get_next_line(0, &line)) != 0)
 	{
 		ft_putendl(line);
 		if (is_valid_link(line))
@@ -57,11 +57,9 @@ static int		read_links(t_farm *farm)
 		else if (!is_valid_comment(line) && !is_valid_command(line))
 		{
 			ft_memdel((void **)&line);
-			return (gnl_ret_code == 0 ? 1 : 0);
+			return (0);
 		}
 		ft_memdel((void **)&line);
-		if (gnl_ret_code == 0)
-			break;
 	}
 	return (gnl_ret_code == -1 ? 0 : 1);
 }
@@ -79,7 +77,10 @@ int				read_farm(t_farm *farm)
 		add_link(farm, first_link);
 		ft_memdel((void **)&first_link);
 		if (read_links(farm) == 0)
+		{
+			ft_putendl("ERROR");
 			return (0);
+		}
 		return (1);
 	}
 	ft_memdel((void **)&first_link);
