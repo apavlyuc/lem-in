@@ -17,7 +17,7 @@ INC_DIR			:= inc
 OBJ_DIR			:= build
 
 CC				:= gcc
-CFLAGS			:= -Wall -Werror -Wextra -I./$(INC_DIR) -I./libft/inc
+CFLAGS			:= -Wall -Wextra -Ofast -I./$(INC_DIR) -I./libft/inc
 
 NORM_CHECK		:= $(shell command -v norminette)
 
