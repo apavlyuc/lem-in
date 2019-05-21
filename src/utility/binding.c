@@ -23,7 +23,7 @@ t_binding		*create_binding(char *node, char *neighbour)
 
 	ret = (t_binding *)ft_memalloc(sizeof(t_binding));
 	ret->node = ft_strdup(node);
-	ret->neighbours = ft_lstnew(neighbour, ft_strlen(neighbour));
+	ret->neighbours = ft_lstnew(neighbour, ft_strlen(neighbour) + 1);
 	return (ret);
 }
 
@@ -33,7 +33,7 @@ void			add_neighbour(t_binding *binding, char *name)
 
 	if (!binding || !(binding->neighbours))
 		return;
-	new_neighbour = ft_lstnew(name, ft_strlen(name));
+	new_neighbour = ft_lstnew(name, ft_strlen(name) + 1);
 	ft_lstadd_before(&binding->neighbours, new_neighbour);
 }
 

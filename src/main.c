@@ -73,21 +73,23 @@ int				main(int ac, char **av)
 
 	(void)ac;
 	(void)av;
+	turn_of_garbage_collector();
 	set_to_zero_state(&game_info);
 	if (read_farm(&game_info) == 0)
 	{
 		delete_farm_fields(&game_info);
+		clear_garbage_collector();
 		return (1);
 	}
 	if (validate_farm(&game_info) == 0)
 	{
 		ft_putendl("ERROR");
 		delete_farm_fields(&game_info);
+		clear_garbage_collector();
 		return (2);
 	}
-	//ft_putendl("DEBUG: valid");
-	//print_all(&game_info);
 	play_game(&game_info);
 	delete_farm_fields(&game_info);
+	clear_garbage_collector();
 	return (0);
 }

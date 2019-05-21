@@ -47,5 +47,7 @@ int				add_link(t_farm *farm, char *link)
 	room2 = get_link_part(link, 2);
 	process_room(&(farm->links), room1, room2);
 	process_room(&(farm->links), room2, room1);
+	ft_memdel((void **)&room1);
+	ft_memdel((void **)&room2);
 	return (1);
 }
