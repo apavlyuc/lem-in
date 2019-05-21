@@ -40,56 +40,26 @@ static void		set_to_zero_state(t_farm *farm)
 	farm->finish_room_name = 0;
 }
 
-static void		delete_link_binding(t_list *link)
-{
-	t_binding	*binding;
-
-	if (!link || !link->content)
-		return;
-	binding = (t_binding *)link->content;
-	ft_memdel((void **)&(binding->node));
-	ft_lstdel(&(binding->neighbours), ft_del_handler);
-}
-
-static void		delete_farm_fields(t_farm *farm)
-{
-	t_list		*link_to_clean;
-
-	ft_memdel((void **)&farm->start_room_name);
-	ft_memdel((void **)&farm->finish_room_name);
-	ft_lstdel(&(farm->rooms), ft_del_handler);
-	link_to_clean = farm->links;
-	while (link_to_clean)
-	{
-		delete_link_binding(link_to_clean);
-		link_to_clean = link_to_clean->next;
-	}
-	ft_lstdel(&(farm->links), ft_del_handler);
-}
-
 int				main(int ac, char **av)
 {
 	t_farm		game_info;
 
 	(void)ac;
 	(void)av;
-	turn_of_garbage_collector();
+	turn_on_garbage_collector();
 	set_to_zero_state(&game_info);
 	if (read_farm(&game_info) == 0)
 	{
-		delete_farm_fields(&game_info);
 		clear_garbage_collector();
 		return (1);
 	}
 	if (validate_farm(&game_info) == 0)
 	{
 		ft_putendl("ERROR");
-		delete_farm_fields(&game_info);
 		clear_garbage_collector();
 		return (2);
 	}
 	play_game(&game_info);
-	delete_farm_fields(&game_info);
 	clear_garbage_collector();
 	return (0);
 }
