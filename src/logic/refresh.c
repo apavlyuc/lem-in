@@ -30,12 +30,25 @@ static void		set_paths_amount(t_data *data, int index)
 		tmp = tmp->next_branch;
 	}
 }
+
+static void		reset_scenarios(t_data *data)
+{
+	data->scenarios = (t_scenario *)ft_memalloc(sizeof(t_scenario));
+	data->scenarios->paths = data->paths;
+	data->scenarios->complexity = data->count_of_paths;
+}
+
 void			shuffle_party(t_data *data, t_farm *farm, int index)
 {
 	int			ants_count;
 	int			used_paths_count;
 	t_path		*tmp;
 
+	if (index < 0)
+	{
+		reset_scenarios(data);
+		index = 0;
+	}
 	set_paths_amount(data, index);
 	ants_count = farm->ants_count;
 	used_paths_count = data->scenarios[index].paths->length - 1;

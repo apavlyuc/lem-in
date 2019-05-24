@@ -48,14 +48,6 @@ static void		delete_first_link_by_id(t_data *data, int id, t_link *prev, t_link 
 	}
 }
 
-static void		process_parties(t_data *data, t_farm *farm)
-{
-	data->scenarios = (t_scenario *)ft_memalloc(sizeof(t_scenario));
-	data->scenarios->paths = data->paths;
-	data->scenarios->complexity = data->count_of_paths;
-	shuffle_party(data, farm, 0);
-}
-
 static int		get_potential_id(t_node *nodes, t_link *curr, int ret, int id)
 {
 	static int	mark;
@@ -91,28 +83,23 @@ static void		go_to_next_node(t_data *data, t_path *path, int id)
 	}
 }
 
-static t_path	*get_path(t_data *data)
+int				find_simple_path(t_data *data, t_farm *farm)
 {
 	t_path		*path;
 
-	path = create_path(data->nodes[1].index, 1, 0, 0);
-	go_to_next_node(data, path, 1);
-	return (path);
-}
-
-int				find_simple_path(t_data *data, t_farm *farm)
-{
 	while (1)
 	{
 		reinit_nodes_indexs(data, farm, 0);
 		if (data->nodes[1].index == 0)
 			break;
-		append_path(data, get_path(data));
+		path = create_path(data->nodes[1].index, 1, 0, 0);
+		go_to_next_node(data, path, 1);
+		append_path(data, path);
 		if (data->nodes[1].index == 1)
 			delete_first_link_by_id(data, 1, 0, 0);
 	}
 	if (!data->count_of_paths)
 		return (1);
-	process_parties(data, farm);
+	shuffle_party(data, farm, -1);
 	return (0);
 }
