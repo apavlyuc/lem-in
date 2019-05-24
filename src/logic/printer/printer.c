@@ -44,8 +44,8 @@ static void		just_print_scenario(t_data *data, t_farm *farm, int index)
 	int			ant;
 
 	ant = 1;
-	lines = 0;
 	scenario = index == -1 ? data->bad_scenario : data->scenarios + index;
+	lines = scenario->id;
 	scenario->paths->amount = 0;
 	while (scenario->id-- > 0)
 	{
@@ -56,7 +56,6 @@ static void		just_print_scenario(t_data *data, t_farm *farm, int index)
 			path = path->next_branch;
 		}
 		ft_putchar('\n');
-		lines++;
 	}
 	ft_putstr("\nLines: ");
 	ft_putnbr(lines);

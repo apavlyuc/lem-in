@@ -110,6 +110,13 @@ void			shuffle_party(t_data *data, t_farm *farm, int index);
 **			logic/superposition_handler.c
 */
 void			handle_superposition(t_data *data, t_farm *farm);
+void			add_path(t_data *data, t_path *to_add, t_farm *farm);
+/*
+**			logic/checker.c
+*/
+int				compare(t_scenario *scen, t_path *path);
+int				check_is_amount(t_data *data, t_path **tmp, t_path **path, t_path **prev);
+int				check_paths(t_data *data, t_path **tmp, t_path **path, t_path **prev);
 /*
 **			logic/converter/convert.c
 */
@@ -125,7 +132,6 @@ void			append_to_link(t_link *link, t_link *new);
 **			logic/utility/path.c
 */
 t_path			*create_path(int length, int id, t_path *branch, t_path *step);
-int				check_node_in_path(t_data *data, t_path **path, t_path *tmp, int id);
 void			add_node_to_path(t_path *path, int id);
 int				is_node_in_path(t_path *path, int id);
 void			del_steps(t_path *path);
