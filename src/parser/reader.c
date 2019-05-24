@@ -2,16 +2,16 @@
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 
-static int		read_ants(t_farm *farm)
+static int		read_ants(int *ants)
 {
 	char		*line;
 
 	if (get_next_line(0, &line) == -1)
 		return (0);
 	ft_putendl(line);
-	farm->ants_count = ft_atoi(line);
+	*ants = ft_atoi(line);
 	ft_memdel((void **)&line);
-	return (farm->ants_count > 0 ? 1 : 0);
+	return (*ants > 0 ? 1 : 0);
 }
 
 static int		read_rooms(t_farm *farm, char **line)
@@ -67,7 +67,7 @@ int				read_farm(t_farm *farm)
 {
 	char		*first_link;
 
-	if (read_ants(farm) == 0)
+	if (read_ants(&farm->ants_count) == 0)
 		return (0);
 	if (read_rooms(farm, &first_link) == 0)
 		return (0);
