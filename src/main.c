@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 14:31:43 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:05:50 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/inc/libft.h"
 #include "../inc/lemin.h"
 
-static void		set_to_zero_state(t_farm *farm)
+static void	set_to_zero_state(t_farm *farm)
 {
 	farm->ants_count = 0;
 	farm->links = 0;
@@ -10,9 +22,9 @@ static void		set_to_zero_state(t_farm *farm)
 	farm->finish_room_name = 0;
 }
 
-int				main(int ac, char **av)
+int			main(int ac, char **av)
 {
-	t_farm		game_info;
+	t_farm	game_info;
 
 	(void)ac;
 	(void)av;
