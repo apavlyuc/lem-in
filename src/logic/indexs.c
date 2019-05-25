@@ -51,7 +51,6 @@ void			reinit_nodes_indexs(t_data *data, t_farm *farm, t_link *near)
 			near = near->next;
 		}
 		near = center->next;
-		ft_memdel((void **)&center);
 		center = near;
 	}
 	data->nodes[0].index = 0;
