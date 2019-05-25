@@ -6,14 +6,15 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:52:40 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:52:41 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:22:27 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 
-static void		first_path_in_scenario(t_data *data, int index, t_path *path, int ants)
+static void		first_path_in_scenario(\
+					t_data *data, int index, t_path *path, int ants)
 {
 	data->count_of_scenarios++;
 	data->scenarios[index].paths = path;
@@ -23,7 +24,8 @@ static void		first_path_in_scenario(t_data *data, int index, t_path *path, int a
 		data->mn_var = data->scenarios[index].id;
 }
 
-static int		try_add_path_to_scenario(t_data *data, t_farm *farm, t_path *path)
+static int		try_add_path_to_scenario(\
+					t_data *data, t_farm *farm, t_path *path)
 {
 	t_path		*tmp;
 	int			i;
@@ -83,9 +85,7 @@ static int		follow_the_paths(t_data *data, t_farm *farm, t_path *path)
 		{
 			if (data->mn_var > 0 && tmp->length >= data->mn_var)
 				return (1);
-			if (check_is_amount(data, &tmp, &path, &prev))
-				continue;
-			if (check_paths(data, &tmp, &path, &prev))
+			if (run_from_norme1(data, &tmp, &path, &prev))
 				continue;
 			prev = tmp;
 			tmp = tmp->next_branch;

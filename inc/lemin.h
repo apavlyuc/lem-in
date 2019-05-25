@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:23:15 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:44:24 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:23:34 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,9 @@ void			choose_printing_logic(t_data *data, t_farm *farm);
 */
 void			clear_data(t_data *data);
 void			clear_path(t_path **path);
+/*
+**			logic/run_from_norme.c
+*/
+int				run_from_norme1(\
+					t_data *data, t_path **tmp, t_path **path, t_path **prev);
 #endif
