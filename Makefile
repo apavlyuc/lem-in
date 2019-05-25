@@ -6,7 +6,7 @@
 #    By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/02 15:48:39 by apavlyuc          #+#    #+#              #
-#    Updated: 2018/10/21 10:19:49 by apavlyuc         ###   ########.fr        #
+#    Updated: 2019/05/25 12:39:35 by apavlyuc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ INC_DIR			:= inc
 OBJ_DIR			:= build
 
 CC				:= gcc
-CFLAGS			:= -Wall -Wextra -Ofast -I./$(INC_DIR) -I./libft/inc
+CFLAGS			:= -Wall -Werror -Wextra -Ofast -I./$(INC_DIR) -I./libft/inc
 
 NORM_CHECK		:= $(shell command -v norminette)
 
