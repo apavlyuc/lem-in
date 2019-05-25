@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:51:34 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:51:38 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:00:40 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ void			shuffle_party(t_data *data, t_farm *farm, int index)
 	t_path		*tmp;
 
 	if (index < 0)
-	{
 		reset_scenarios(data);
-		index = 0;
-	}
+	index = index < 0 ? 0 : index;
 	set_paths_amount(data, index);
 	ants_count = farm->ants_count;
 	used_paths_count = data->scenarios[index].paths->length - 1;
@@ -76,5 +74,6 @@ void			shuffle_party(t_data *data, t_farm *farm, int index)
 		}
 	}
 	data->scenarios[index].id = used_paths_count;
-	data->mn_var = data->mn_var > used_paths_count ? used_paths_count : data->mn_var;
+	data->mn_var = data->mn_var > used_paths_count ?\
+					used_paths_count : data->mn_var;
 }
