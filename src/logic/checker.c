@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:53:02 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:56:40 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 15:57:49 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void		clone_except_last(t_path **path, t_path *tmp, int id)
 	*path = ret;
 }
 
-static int		check_node_in_path(t_data *data, t_path **path, t_path *tmp, int id)
+static int		check_node_in_path(\
+					t_data *data, t_path **path, t_path *tmp, int id)
 {
 	t_link		*link;
 	int			i;
@@ -43,7 +44,7 @@ static int		check_node_in_path(t_data *data, t_path **path, t_path *tmp, int id)
 	link = data->nodes[id].link;
 	while (link)
 	{
-		if(!is_node_in_path(tmp, link->id))
+		if (!is_node_in_path(tmp, link->id))
 		{
 			if (i == 0)
 			{
@@ -84,7 +85,8 @@ int				compare(t_scenario *scen, t_path *path)
 	return (0);
 }
 
-int				check_is_amount(t_data *data, t_path **tmp, t_path **path, t_path **prev)
+int				check_is_amount(\
+					t_data *data, t_path **tmp, t_path **path, t_path **prev)
 {
 	t_path		*step;
 
@@ -100,7 +102,8 @@ int				check_is_amount(t_data *data, t_path **tmp, t_path **path, t_path **prev)
 	return (1);
 }
 
-int				check_paths(t_data *data, t_path **tmp, t_path **path, t_path **prev)
+int				check_paths(\
+					t_data *data, t_path **tmp, t_path **path, t_path **prev)
 {
 	t_path		*step;
 
