@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reader.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 14:52:17 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:33:48 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
@@ -26,7 +37,7 @@ static int		read_rooms(t_farm *farm, char **line)
 		if (is_valid_room(*line))
 		{
 			if (add_room(farm, *line, room_type) == 0)
-				break;
+				break ;
 			room_type = 0;
 		}
 		else if (is_valid_command(*line))
@@ -34,13 +45,13 @@ static int		read_rooms(t_farm *farm, char **line)
 			room_type = get_next_room_type(*line);
 		}
 		else if (!is_valid_comment(*line))
-			break;
+			break ;
 		ft_memdel((void **)line);
 	}
 	return (gnl_ret_code == -1 ? 0 : 1);
 }
 
-static int		read_links(t_farm *farm)
+static int		read_links(t_list **links)
 {
 	char		*line;
 	int			gnl_ret_code;
@@ -50,7 +61,7 @@ static int		read_links(t_farm *farm)
 		ft_putendl(line);
 		if (is_valid_link(line))
 		{
-			add_link(farm, line);
+			add_link(links, line);
 		}
 		else if (!is_valid_comment(line) && !is_valid_command(line))
 		{
@@ -73,9 +84,9 @@ int				read_farm(t_farm *farm)
 		return (0);
 	if (is_valid_link(first_link))
 	{
-		add_link(farm, first_link);
+		add_link(&farm->links, first_link);
 		ft_memdel((void **)&first_link);
-		if (read_links(farm) == 0)
+		if (read_links(&farm->links) == 0)
 		{
 			ft_putendl("ERROR");
 			return (0);

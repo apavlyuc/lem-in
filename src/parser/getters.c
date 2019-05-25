@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getters.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 15:43:32 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:43:49 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../libft/inc/libft.h"
 
-int				get_next_room_type(char *line)
+int				get_next_room_type(char const *line)
 {
 	if (ft_strequ(line, "##start"))
 		return (1);
@@ -9,7 +21,7 @@ int				get_next_room_type(char *line)
 	return (3);
 }
 
-char			*get_room_name(char *line)
+char			*get_room_name(char const *line)
 {
 	char		*name;
 	char		*first_space_entry;
@@ -19,7 +31,7 @@ char			*get_room_name(char *line)
 	return (name);
 }
 
-char			*get_link_part(char *link, int part)
+char			*get_link_part(char const *link, int const part)
 {
 	char		*ret;
 	t_ull		len_to_cut;

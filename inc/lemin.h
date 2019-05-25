@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lemin.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 15:23:15 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:44:24 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEMIN_H
 # define LEMIN_H
 
@@ -68,27 +80,28 @@ int				read_farm(t_farm *farm);
 **			parser/validator.c
 */
 int				validate_farm(t_farm *farm);
-int				is_valid_room(char *room);
-int				is_valid_link(char *link);
-int				is_valid_command(char *command);
-int				is_valid_comment(char *comment);
+int				is_valid_room(char const *room);
+int				is_valid_link(char const *link);
+int				is_valid_command(char const *command);
+int				is_valid_comment(char const *comment);
 /*
 **			parser/getters.c
 */
-int				get_next_room_type(char *line);
-char			*get_room_name(char *line);
-char			*get_link_part(char *link, int part);
+int				get_next_room_type(char const *line);
+char			*get_room_name(char const *line);
+char			*get_link_part(char const *link, int const part);
 /*
 **			utility/farm.c
 */
-int				add_room(t_farm *farm, char *room_name, int room_type);
-int				add_link(t_farm *farm, char *link);
+int				add_room(\
+					t_farm *farm, char const *room_name, int const room_type);
+int				add_link(t_list **links, char const *link);
 /*
 **			utility/binding.c
 */
-t_binding		*find_binding(t_list *links, char *node);
-t_binding		*create_binding(char *node, char *neighbour);
-void			add_neighbour(t_binding *binding, char *name);
+t_binding		*find_binding(t_list *links, char const *node);
+t_binding		*create_binding(char const *node, char const *neighbour);
+void			add_neighbour(t_binding *binding, char const *name);
 void			add_binding(t_list **links, t_binding *binding);
 /*
 **			logic/game.c
@@ -115,8 +128,10 @@ void			add_path(t_data *data, t_path *to_add, t_farm *farm);
 **			logic/checker.c
 */
 int				compare(t_scenario *scen, t_path *path);
-int				check_is_amount(t_data *data, t_path **tmp, t_path **path, t_path **prev);
-int				check_paths(t_data *data, t_path **tmp, t_path **path, t_path **prev);
+int				check_is_amount(\
+					t_data *data, t_path **tmp, t_path **path, t_path **prev);
+int				check_paths(\
+					t_data *data, t_path **tmp, t_path **path, t_path **prev);
 /*
 **			logic/converter/convert.c
 */
@@ -144,6 +159,4 @@ void			choose_printing_logic(t_data *data, t_farm *farm);
 */
 void			clear_data(t_data *data);
 void			clear_path(t_path **path);
-
-//////////////////////////////////////////////////////////////////
 #endif

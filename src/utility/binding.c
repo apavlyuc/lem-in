@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   binding.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 15:43:14 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:46:13 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 
-t_binding		*find_binding(t_list *links, char *node)
+t_binding		*find_binding(t_list *links, char const *node)
 {
 	t_binding	*ret;
 
@@ -10,14 +22,14 @@ t_binding		*find_binding(t_list *links, char *node)
 	{
 		ret = (t_binding *)links->content;
 		if (ft_strequ(ret->node, node))
-			break;
+			break ;
 		links = links->next;
 		ret = 0;
 	}
 	return (ret);
 }
 
-t_binding		*create_binding(char *node, char *neighbour)
+t_binding		*create_binding(char const *node, char const *neighbour)
 {
 	t_binding	*ret;
 
@@ -27,12 +39,12 @@ t_binding		*create_binding(char *node, char *neighbour)
 	return (ret);
 }
 
-void			add_neighbour(t_binding *binding, char *name)
+void			add_neighbour(t_binding *binding, char const *name)
 {
 	t_list		*new_neighbour;
 
 	if (!binding || !(binding->neighbours))
-		return;
+		return ;
 	new_neighbour = ft_lstnew(name, ft_strlen(name) + 1);
 	ft_lstadd_before(&binding->neighbours, new_neighbour);
 }

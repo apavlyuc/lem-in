@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validator.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/25 14:54:02 by apavlyuc          #+#    #+#             */
+/*   Updated: 2019/05/25 15:29:24 by apavlyuc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../libft/inc/libft.h"
 #include "../../inc/lemin.h"
 
-int				is_valid_room(char *room)
+int				is_valid_room(char const *room)
 {
-	t_ull		size;
+	t_ull const	size = ft_strlen(room);
 	char		*x_entry_point;
 	char		*y_entry_point;
 
-	size = ft_strlen(room);
 	if (size == 0 || *room == '#' || *room == 'L')
 		return (0);
 	x_entry_point = ft_strchr(room, ' ');
@@ -19,11 +30,10 @@ int				is_valid_room(char *room)
 	return (1);
 }
 
-int				is_valid_command(char *command)
+int				is_valid_command(char const *command)
 {
-	t_ull		size;
+	t_ull const	size = ft_strlen(command);
 
-	size = ft_strlen(command);
 	if (size < 2)
 		return (0);
 	if (command[0] != '#' || command[1] != '#')
@@ -31,11 +41,10 @@ int				is_valid_command(char *command)
 	return (1);
 }
 
-int				is_valid_comment(char *comment)
+int				is_valid_comment(char const *comment)
 {
-	t_ull		size;
+	t_ull const	size = ft_strlen(comment);
 
-	size = ft_strlen(comment);
 	if (size < 1)
 		return (0);
 	if (comment[0] == '#' && comment[1] != '#')
@@ -43,9 +52,11 @@ int				is_valid_comment(char *comment)
 	return (0);
 }
 
-int				is_valid_link(char *link)
+int				is_valid_link(char const *link)
 {
-	if (ft_strlen(link) < 3)
+	t_ull const	size = ft_strlen(link);
+
+	if (size < 3)
 		return (0);
 	if (*link == '#' || *link == 'L')
 		return (0);
