@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:54:47 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:55:41 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:03:29 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int		get_node_id(t_data *data, char *name)
 		++i;
 	}
 	ft_putendl("::get_node_id error");
-	//add deleters
 	exit(1);
 }
 
@@ -89,8 +88,7 @@ static void		convert_from_list_to_vector(t_data *data, t_farm *farm)
 		else
 		{
 			data->nodes[i].name = ft_strdup((char *)tmp->content);
-			data->nodes[i].link = 0;
-			i++;
+			data->nodes[i++].link = 0;
 		}
 		tmp = tmp->next;
 	}
