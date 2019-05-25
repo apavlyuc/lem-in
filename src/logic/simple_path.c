@@ -6,7 +6,7 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:52:01 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:52:06 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:05:56 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void		append_path(t_data *data, t_path *new)
 	if (data->paths == 0)
 	{
 		data->paths = new;
-		return;
+		return ;
 	}
 	tmp = data->paths;
 	while (tmp->next_branch)
@@ -31,7 +31,8 @@ static void		append_path(t_data *data, t_path *new)
 	tmp->next_branch = new;
 }
 
-static void		delete_first_link_by_id(t_data *data, int id, t_link *prev, t_link *next)
+static void		delete_first_link_by_id(\
+					t_data *data, int id, t_link *prev, t_link *next)
 {
 	t_link		*tmp;
 
@@ -43,7 +44,7 @@ static void		delete_first_link_by_id(t_data *data, int id, t_link *prev, t_link 
 		if (tmp->id == id)
 		{
 			next = tmp->next;
-			break;
+			break ;
 		}
 		else
 			prev = tmp;
@@ -84,7 +85,8 @@ static void		go_to_next_node(t_data *data, t_path *path, int id)
 	i = 0;
 	while (i < data->nodes[id].links_count)
 	{
-		ret = get_potential_id(data->nodes, get_link_at(data->nodes + id, i), ret, id);
+		ret = get_potential_id(data->nodes,\
+				get_link_at(data->nodes + id, i), ret, id);
 		++i;
 	}
 	path->step_forward = create_path(0, ret, 0, 0);
@@ -103,7 +105,7 @@ int				find_simple_path(t_data *data, t_farm *farm)
 	{
 		reinit_nodes_indexs(data, farm, 0);
 		if (data->nodes[1].index == 0)
-			break;
+			break ;
 		path = create_path(data->nodes[1].index, 1, 0, 0);
 		go_to_next_node(data, path, 1);
 		append_path(data, path);
