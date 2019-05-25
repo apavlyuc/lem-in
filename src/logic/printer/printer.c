@@ -6,14 +6,14 @@
 /*   By: apavlyuc <apavlyuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 15:54:11 by apavlyuc          #+#    #+#             */
-/*   Updated: 2019/05/25 15:54:12 by apavlyuc         ###   ########.fr       */
+/*   Updated: 2019/05/25 16:04:31 by apavlyuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../libft/inc/libft.h"
 #include "../../../inc/lemin.h"
 
-static void			print_item(int ant, char *name)
+static void		print_item(int ant, char *name)
 {
 	ft_putchar('L');
 	ft_putnbr(ant);
